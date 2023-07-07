@@ -12,28 +12,30 @@ async function createProductsServices({
   category,
   image,
 }) {
+  const findCategory = await Category.findOne({
+    name: category.toLowerCase(),
+  });
+
+  if (!findCategory) {
+    throw new Error("Categoria não existe, reveja o campo.");
+  }
+
   const findProduct = await Product.findOne({
     name,
-    category,
+    idCategory: findCategory?._id,
     price,
   });
 
   if (!findProduct) {
-    const findCategory = await Category.findOne({
-      name: name.toLowerCase(),
+    return Product.create({
+      name,
+      description,
+      price,
+      idCategory: findCategory._id,
+      image,
     });
-
-    if (findCategory) {
-      return Product.create({
-        name,
-        description,
-        price,
-        idCategory: findCategory._id,
-        image,
-      });
-    }
-    throw new Error("Categoria não existe, reveja o campo.");
   }
+
   throw new Error("Produto já cadastrado!");
 }
 
