@@ -43,31 +43,33 @@ mongoose
     app.use(bodyParser.json({ limit: "100mb" }));
     app.use(bodyParser.urlencoded({ limit: "100mb", extended: false }));
 
-    app.use(
-      helmet.contentSecurityPolicy({
-        directives: {
-          scriptSrc: ["'self'"],
-          styleSrc: ["'self'"],
-        },
-      })
-    );
-    app.use(helmet.xssFilter());
-    app.use(helmet.noSniff());
-    app.use(
-      helmet.referrerPolicy({
-        policy: "no-referrer",
-      })
-    );
-    app.use(
-      helmet.frameguard({
-        action: "deny",
-      })
-    );
-    app.use(
-      helmet.frameguard({
-        action: "sameorigin",
-      })
-    );
+    // app.use(
+    //   helmet.contentSecurityPolicy({
+    //     directives: {
+    //       scriptSrc: ["'self'"],
+    //       styleSrc: ["'self'"],
+    //     },
+    //   })
+    // );
+    // app.use(helmet.xssFilter());
+    // app.use(helmet.noSniff());
+    // app.use(
+    //   helmet.referrerPolicy({
+    //     policy: "no-referrer",
+    //   })
+    // );
+    // app.use(
+    //   helmet.frameguard({
+    //     action: "deny",
+    //   })
+    // );
+    // app.use(
+    //   helmet.frameguard({
+    //     action: "sameorigin",
+    //   })
+    // );
+
+    app.use(helmet());
 
     app.use((_req, res, next) => {
       res.setHeader("X-XSS-Protection", "1; mode=block");
